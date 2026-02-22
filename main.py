@@ -5,7 +5,7 @@ import matplotlib.pyplot as plt
 import mysql.connector
 
 def main():
-    print("Selamat Datang di Maxi Bookstore\n\n")
+    print("Selamat Datang di Maxi Bookstore\n")
     print("1. Tampilkan Data")
     print("2. Tambah Data Baru")
     print("3. Tampilkan Rata-Rata")
@@ -13,5 +13,5 @@ def main():
     print("5. Keluar")
 
 
-if __name__ == 'main':
+if __name__ == '__main__':
     main()
