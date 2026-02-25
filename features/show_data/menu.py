@@ -2,7 +2,7 @@ import pandas as pd
 import mysql.connector
 
 from db.queries import (
-    book_genres as bg, books as b
+    book_genres as bg, books as b, branches as br
 )
     
 
@@ -70,7 +70,15 @@ def show_book_data(connection):
         return None
 
 def show_branch_data(connection):
-    pass
+    try:
+        df = pd.read_sql(br.get_branches(), connection)
+
+        print("\n===DATA CABANG===\n")
+        print(df)
+        return(df)
+    except Exception as e:
+        print(f"Terjadi error saat menampilkan data: {e}")
+        return None
 
 def show_book_stock_data(connection):
     pass
