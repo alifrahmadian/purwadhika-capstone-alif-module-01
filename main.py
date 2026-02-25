@@ -3,10 +3,8 @@ import seaborn as sns
 import matplotlib.pyplot as plt
 import mysql.connector
 
-from connection import create_connection
-
-def show_data_menu():
-    print("Tampilkan data")
+from db.connection import create_connection
+from features.show_data.menu import show_data_menu
 
 def add_data_menu():
     print("Tambah data")
@@ -21,6 +19,7 @@ def main():
     connection = create_connection()
 
     while True:
+        print("===MENU UTAMA===")
         print("\nSelamat Datang di Maxi Bookstore\n")
         print("1. Tampilkan data")
         print("2. Tambah data baru")
@@ -31,7 +30,7 @@ def main():
         choice = int(input("Masukkan pilihan anda dengan memasukkan angka 1-5: "))
 
         if choice == 1:
-            show_data_menu()
+            show_data_menu(connection)
         elif choice == 2:
             add_data_menu()
         elif choice == 3:

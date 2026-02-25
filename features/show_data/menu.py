@@ -1,0 +1,62 @@
+import pandas as pd
+import mysql.connector
+
+from db.queries import book_genres as bg
+
+def show_data_menu(connection):
+    while True:
+        print("\n===MENU TAMPILKAN DATA===\n")
+        print("Silakan pilih data yang ingin ditampilkan (1-7): \n")
+        print("1. Data genre buku")
+        print("2. Data buku")
+        print("3. Data cabang")
+        print("4. Data stok buku")
+        print("5. Data penjualan")
+        print("6. Data member")
+        print("7. Kembali ke menu utama")
+    
+        choice = int(input("Masukkan pilihan anda: "))
+
+        if choice == 1:
+            show_genre_data(connection)
+        elif choice == 2:
+            show_book_data(connection)
+        elif choice == 3:
+            show_branch_data(connection)
+        elif choice == 4:
+            show_book_stock_data(connection)
+        elif choice == 5:
+            show_sales_data(connection)
+        elif choice == 6:
+            show_member_data(connection)
+        elif choice == 7:
+            break
+        else:
+            print("Pilihan tidak valid")
+
+def show_genre_data(connection):
+    try:
+        df = pd.read_sql(bg.get_book_genres(), connection)
+
+        print("\n===DATA GENRE BUKU===\n")
+        print(df)
+        return(df)
+    except Exception as e:
+        print(f"Terjadi error saat menampilkan data: {e}")
+        return None
+
+def show_book_data(connection):
+    pass
+
+def show_branch_data(connection):
+    pass
+
+def show_book_stock_data(connection):
+    pass
+
+def show_sales_data(connection):
+    pass
+
+def show_member_data(connection):
+    pass
+
