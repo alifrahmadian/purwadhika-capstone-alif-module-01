@@ -1,7 +1,10 @@
 import pandas as pd
 import mysql.connector
 
-from db.queries import book_genres as bg
+from db.queries import (
+    book_genres as bg, books as b
+)
+    
 
 def show_data_menu(connection):
     while True:
@@ -46,7 +49,25 @@ def show_genre_data(connection):
         return None
 
 def show_book_data(connection):
-    pass
+    try:
+        df = pd.read_sql(b.get_books(), connection)
+
+        print("\n=== DATA BUKU ===")
+
+        renamed = df.rename(columns={
+            'id': 'Book ID',
+            'price': 'Price(Rp)',
+            'name': 'Book Name',
+            'author': 'Author',
+            'genre': 'Genre',
+            'type': 'Genre Type'
+            })
+
+        print(renamed)
+        return renamed
+    except Exception as e:
+        print(f"Terjadi error saat menampilkan data: {e}")
+        return None
 
 def show_branch_data(connection):
     pass
