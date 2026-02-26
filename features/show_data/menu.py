@@ -112,7 +112,7 @@ def show_member_data(connection):
             print(df)
         
         return df
-    except:
+    except Exception as e:
         print(f"Terjadi error pada saat menampilkan data: {e}")
         return None
 
