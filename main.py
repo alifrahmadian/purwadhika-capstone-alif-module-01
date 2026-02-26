@@ -19,7 +19,7 @@ def main():
     connection = create_connection()
 
     while True:
-        print("===MENU UTAMA===")
+        print("=== MENU UTAMA ===")
         print("\nSelamat Datang di Maxi Bookstore\n")
         print("1. Tampilkan data")
         print("2. Tambah data baru")

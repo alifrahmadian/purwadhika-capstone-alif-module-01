@@ -2,13 +2,13 @@ import pandas as pd
 import mysql.connector
 
 from db.queries import (
-    book_genres as bg, books as b, branches as br, book_stocks as bs
+    book_genres as bg, books as b, branches as br, book_stocks as bs, users as u
 )
     
 
 def show_data_menu(connection):
     while True:
-        print("\n===MENU TAMPILKAN DATA===\n")
+        print("\n=== MENU TAMPILKAN DATA ===\n")
         print("Silakan pilih data yang ingin ditampilkan (1-7): \n")
         print("1. Data genre buku")
         print("2. Data buku")
@@ -41,7 +41,7 @@ def show_genre_data(connection):
     try:
         df = pd.read_sql(bg.get_book_genres(), connection)
 
-        print("\n===DATA GENRE BUKU===\n")
+        print("\n=== DATA GENRE BUKU ===\n")
         print(df)
         return(df)
     except Exception as e:
@@ -74,7 +74,7 @@ def show_branch_data(connection):
     try:
         df = pd.read_sql(br.get_branches(), connection)
 
-        print("\n===DATA CABANG===\n")
+        print("\n=== DATA CABANG ===\n")
         print(df)
         return df
     except Exception as e:
@@ -86,7 +86,12 @@ def show_book_stock_data(connection):
         df = pd.read_sql(bs.get_book_stocks(), connection)
         
         print("\n === DATA STOK BUKU === \n")
-        print(df)
+
+        if len(df) == 0:
+            print("Tidak ada data yang tersedia")
+        else:
+            print(df)
+
         return df
     except Exception as e:
         print(f"Terjadi error pada saat menampilkan data: {e}")
@@ -96,5 +101,18 @@ def show_sales_data(connection):
     pass
 
 def show_member_data(connection):
-    pass
+    try:
+        df = pd.read_sql(u.get_users(), connection)
+
+        print("\n === DATA MEMBER === \n")
+
+        if len(df) == 0:
+            print("Tidak ada data yang tersedia")
+        else:
+            print(df)
+        
+        return df
+    except:
+        print(f"Terjadi error pada saat menampilkan data: {e}")
+        return None
 
