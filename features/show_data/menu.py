@@ -60,7 +60,8 @@ def show_book_data(connection):
             'name': 'Book Name',
             'author': 'Author',
             'genre': 'Genre',
-            'type': 'Genre Type'
+            'type': 'Genre Type',
+            'reserved_stock': 'Reserved Stock'
             })
 
         print(renamed)
