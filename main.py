@@ -4,7 +4,7 @@ import matplotlib.pyplot as plt
 import mysql.connector
 
 from db.connection import create_connection
-from features.show_data.menu import show_data_menu
+from features.show_data.menu import menu as show_data_menu
 
 def add_data_menu():
     print("Tambah data")

@@ -1,11 +1,18 @@
 import pandas as pd
 
+from .genres import show_genre_data
+from .books import show_book_data
+from .branches import show_branch_data
+from .book_stocks import show_book_stock_data
+from .book_sales import show_sales_data
+from .users import show_member_data
+
 from db.queries import (
-    book_genres as bg, books as b, branches as br, book_stocks as bs, users as u,  book_sales as bsl
+   branches as br, book_stocks as bs, users as u,  book_sales as bsl
 )
     
 
-def show_data_menu(connection):
+def menu(connection):
     while True:
         print("\n=== MENU TAMPILKAN DATA ===\n")
         print("Silakan pilih data yang ingin ditampilkan (1-7): \n")
@@ -35,110 +42,3 @@ def show_data_menu(connection):
             break
         else:
             print("Pilihan tidak valid")
-
-def show_genre_data(connection):
-    try:
-        df = pd.read_sql(bg.get_book_genres(), connection)
-
-        print("\n=== DATA GENRE BUKU ===\n")
-
-        if len(df) == 0:
-            print("Tidak ada data yang tersedia")
-        else:
-            print(df)
-
-        return df
-    except Exception as e:
-        print(f"Terjadi error saat menampilkan data: {e}")
-        return None
-
-def show_book_data(connection):
-    try:
-        df = pd.read_sql(b.get_books(), connection)
-
-        print("\n=== DATA BUKU ===")
-
-        if len(df) == 0:
-            print("Tidak ada data yang tersedia")
-        else:
-            renamed = df.rename(columns={
-                'id': 'Book ID',
-                'price': 'Price(Rp)',
-                'name': 'Book Name',
-                'author': 'Author',
-                'genre': 'Genre',
-                'type': 'Genre Type',
-                'reserved_stock': 'Reserved Stock'
-                })
-
-            print(renamed)
-
-        return renamed
-    except Exception as e:
-        print(f"Terjadi error saat menampilkan data: {e}")
-        return None
-
-def show_branch_data(connection):
-    try:
-        df = pd.read_sql(br.get_branches(), connection)
-
-        print("\n=== DATA CABANG ===\n")
-
-        if len(df) == 0:
-            print("Tidak ada data yang tersedia")
-        else:
-            print(df)
-
-        return df
-    except Exception as e:
-        print(f"Terjadi error saat menampilkan data: {e}")
-        return None
-
-def show_book_stock_data(connection):
-    try:
-        df = pd.read_sql(bs.get_book_stocks(), connection)
-        
-        print("\n === DATA STOK BUKU === \n")
-
-        if len(df) == 0:
-            print("Tidak ada data yang tersedia")
-        else:
-            print(df)
-
-        return df
-    except Exception as e:
-        print(f"Terjadi error pada saat menampilkan data: {e}")
-        return None
-
-def show_sales_data(connection):
-    try:
-        df = pd.read_sql(bsl.get_book_sales(), connection)
-
-        print("\n === DATA PENJUALAN BUKU === \n")
-
-        if len(df) == 0:
-            print("Tidak ada data yang tersedia")
-        else:
-            print(df)
-        
-        return df
-    except Exception as e:
-        print(f"Terjadi error pada saat menampilkan data: {e}")
-        return None
-
-def show_member_data(connection):
-    try:
-        df = pd.read_sql(u.get_users(), connection)
-
-        print("\n === DATA MEMBER === \n")
-
-        if len(df) == 0:
-            print("Tidak ada data yang tersedia")
-        else:
-            print(df)
-        
-        return df
-    except Exception as e:
-        print(f"Terjadi error pada saat menampilkan data: {e}")
-        return None
-
