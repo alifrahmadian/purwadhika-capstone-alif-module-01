@@ -5,9 +5,7 @@ import mysql.connector
 
 from db.connection import create_connection
 from features.show_data.menu import menu as show_data_menu
-
-def add_data_menu():
-    print("Tambah data")
+from features.add_data.menu import menu as add_data_menu
 
 def show_mean_menu():
     print("Tampilkan rata-rata")
@@ -27,12 +25,12 @@ def main():
         print("4. Tampilkan visualisasi data")
         print("5. Keluar")
 
-        choice = int(input("Masukkan pilihan anda dengan memasukkan angka 1-5: "))
+        choice = int(input("Masukkan pilihan anda (1-5): "))
 
         if choice == 1:
             show_data_menu(connection)
         elif choice == 2:
-            add_data_menu()
+            add_data_menu(connection)
         elif choice == 3:
             show_mean_menu()
         elif choice == 4:

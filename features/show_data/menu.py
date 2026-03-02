@@ -1,5 +1,3 @@
-import pandas as pd
-
 from .genres import show_genre_data
 from .books import show_book_data
 from .branches import show_branch_data
@@ -10,7 +8,6 @@ from .users import show_member_data
 def menu(connection):
     while True:
         print("\n=== MENU TAMPILKAN DATA ===\n")
-        print("Silakan pilih data yang ingin ditampilkan (1-7): \n")
         print("1. Data genre buku")
         print("2. Data buku")
         print("3. Data cabang")
@@ -19,7 +16,7 @@ def menu(connection):
         print("6. Data member")
         print("7. Kembali ke menu utama")
     
-        choice = int(input("Masukkan pilihan anda: "))
+        choice = int(input("Masukkan pilihan anda (1-7): "))
 
         if choice == 1:
             show_genre_data(connection)
