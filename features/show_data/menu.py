@@ -7,11 +7,6 @@ from .book_stocks import show_book_stock_data
 from .book_sales import show_sales_data
 from .users import show_member_data
 
-from db.queries import (
-   branches as br, book_stocks as bs, users as u,  book_sales as bsl
-)
-    
-
 def menu(connection):
     while True:
         print("\n=== MENU TAMPILKAN DATA ===\n")
