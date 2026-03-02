@@ -7,21 +7,18 @@ def add_genre(connection):
     try:
         name = input("Masukkan nama genre: ")
         genre_type = choose_genre_type()
-
         if genre_type is None:
             print("Pilihan genre tidak valid")
             return
         
         cursor = connection.cursor()
 
-        is_book_existing = bgq.get_genre_by_name(cursor, name)
-
-        if is_book_existing is not None:
+        existing_genre = bgq.get_genre_by_name(cursor, name)
+        if existing_genre is not None:
             print(f"\nGenre buku {name.title()} sudah tersedia di database")
             return
         
         bgq.add_genre(cursor, name, genre_type.value)
-
         connection.commit()
 
         print(f"\nGenre {name.title()} berhasil ditambahkan")

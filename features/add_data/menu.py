@@ -1,4 +1,5 @@
 from .genres import add_genre
+from .books import add_book
 
 def menu(connection):
     while True:
@@ -16,7 +17,7 @@ def menu(connection):
         if choice == 1:
             add_genre(connection)
         elif choice == 2:
-            print("Tambah buku")
+            add_book(connection)
         elif choice == 3:
             print("Tambah cabang")
         elif choice == 4:
