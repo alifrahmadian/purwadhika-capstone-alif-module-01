@@ -21,7 +21,8 @@ def show_book_data(connection):
                 'reserved_stock': 'Reserved Stock'
                 })
 
-            print(renamed)
+            with pd.option_context('display.max_columns', None):
+                print(renamed)
 
         return renamed
     except Exception as e:

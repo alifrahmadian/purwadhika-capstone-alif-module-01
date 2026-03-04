@@ -20,9 +20,12 @@ def add_book(connection):
 
         while run_input_genre:
             genre_data = gd.show_genre_data(connection)
+            print(genre_data)
+
             genre_id = int(input("Masukkan ID genre: "))
 
             existing_genre = bgq.get_genre_by_id(cursor, genre_id)
+            
             if existing_genre is None:
                 print("\n Genre tidak tersedia")
             else:

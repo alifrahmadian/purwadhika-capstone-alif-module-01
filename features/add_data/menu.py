@@ -1,5 +1,6 @@
 from .genres import add_genre
 from .books import add_book
+from .branches import add_branch
 
 def menu(connection):
     while True:
@@ -19,7 +20,7 @@ def menu(connection):
         elif choice == 2:
             add_book(connection)
         elif choice == 3:
-            print("Tambah cabang")
+            add_branch(connection)
         elif choice == 4:
             print("Tambah stok buku per cabang")
         elif choice == 5:
