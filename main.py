@@ -20,9 +20,9 @@ def main():
         print("=== MENU UTAMA ===")
         print("\nSelamat Datang di Maxi Bookstore\n")
         print("1. Tampilkan data")
-        print("2. Tambah data baru")
+        print("2. Manajemen data")
         print("3. Tampilkan rata-rata")
-        print("4. Tampilkan visualisasi data")
+        print("4. Visualisasi data")
         print("5. Keluar")
 
         choice = int(input("Masukkan pilihan anda (1-5): "))

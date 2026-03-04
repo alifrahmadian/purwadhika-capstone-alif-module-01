@@ -23,3 +23,6 @@ def add_book(cursor, name: str, price: float, author: str, reserved_stock: int, 
 
     values = (name.title(), price, author.title(), reserved_stock, genre_id)
     cursor.execute(query, values)
+
+def update_reserved_stock(id:int):
+    pass
