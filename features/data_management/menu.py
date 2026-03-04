@@ -5,7 +5,7 @@ from .book_stocks import add_book_stock
 
 def menu(connection):
     while True:
-        print("\n=== MENU TAMBAH DATA ===")
+        print("\n=== MANAJEMEN DATA ===")
         print("1. Tambah genre")
         print("2. Tambah buku")
         print("3. Tambah cabang")

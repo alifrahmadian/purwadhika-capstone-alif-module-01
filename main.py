@@ -5,7 +5,7 @@ import mysql.connector
 
 from db.connection import create_connection
 from features.show_data.menu import menu as show_data_menu
-from features.add_data.menu import menu as add_data_menu
+from features.data_management.menu import menu as add_data_menu
 
 def show_mean_menu():
     print("Tampilkan rata-rata")
