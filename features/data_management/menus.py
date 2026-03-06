@@ -21,30 +21,68 @@ def menu(connection):
         choice = int(input("Masukkan pilihan anda (1-7): "))
 
         if choice == 1:
-            add_genre(connection)
+            genre_menu(connection)
         elif choice == 2:
-            add_book(connection)
+           book_menu(connection)
         elif choice == 3:
-            add_branch(connection)
+            branch_menu(connection)
         elif choice == 4:
             book_stock_menu(connection)
         elif choice == 5:
-            print("Tambah user/member")
+            user_menu(connection)
         elif choice == 6:
-            print("Transaksi")
+            transaction_menu(connection)
         elif choice == 7:
             break
         else:
             print("Pilihan tidak valid")
 
 def genre_menu(connection):
-    pass
+    while True:
+        print("\n=== DATA GENRE ===")
+        print("1. Tambah genre")
+        print("2. Kembali ke menu sebelumnya")
+
+        choice = int(input("Masukkan pilihan anda (1-2): "))
+
+        if choice == 1:
+            add_genre(connection)
+        elif choice == 2:
+            break
+        else:
+            print("Pilihan tidak valid")
 
 def book_menu(connection):
-    pass
+    while True:
+        print("\n=== DATA BUKU ===")
+        print("1. Tambah buku")
+        print("2. Kembali ke menu sebelumnya")
+
+        choice = int(input("Masukkan pilihan anda (1-2): "))
+
+        if choice == 1:
+            add_book(connection)
+        elif choice == 2:
+            break
+        else:
+            print("Pilihan tidak valid")
+ 
 
 def branch_menu(connection):
-    pass
+    while True:
+        print("\n=== DATA CABANG ===")
+        print("1. Tambah cabang")
+        print("2. Kembali ke menu sebelumnya")
+
+        choice = int(input("Masukkan pilihan anda (1-2): "))
+
+        if choice == 1:
+            add_branch(connection)
+        elif choice == 2:
+            break
+        else:
+            print("Pilihan tidak valid")
+
 
 def book_stock_menu(connection):
      while True:
