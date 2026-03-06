@@ -1,18 +1,29 @@
 def get_branches():
     return "SELECT * FROM branches"
 
+def get_branch_by_id(cursor, id:int):
+    query = """
+        SELECT * FROM branches
+        WHERE id = %s
+        LIMIT 1;
+"""
+
+    cursor.execute(query, (id, ))
+    return cursor.fetchone()
+
 def get_branch_by_name(cursor, name:str):
     query = """
-        SELECT name FROM branches
+        SELECT * FROM branches
         WHERE name = %s
         LIMIT 1;
 """
+
     cursor.execute(query, (name, ))
     return cursor.fetchone()
 
 def get_branch_by_address(cursor, address:str):
     query = """
-        SELECT address FROM branches
+        SELECT * FROM branches
         WHERE address = %s
         LIMIT 1;
 """

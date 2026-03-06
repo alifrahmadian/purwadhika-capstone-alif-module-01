@@ -1,4 +1,5 @@
 from constants.user_tier import UserTier as tier
+from constants.user_tier import USER_POINT_DIVIDER
 
 """
 Aturan tier:
@@ -18,13 +19,13 @@ Untuk saat ini, tidak ada fitur point expiry, sehingga jumlah poin yang didapat 
 Fitur optional (tukar dengan point pada saat melakukan transaksi)
 """
 
-def add_user_point(transaction_amount:float):
+def set_user_point(transaction_amount:float):
     """
-    Fungsi ini bertujuan untuk menambahkan poin berdasarkan jumlah transaksi user tersebut
+    Fungsi ini bertujuan untuk menentukan poin berdasarkan jumlah transaksi user tersebut
     """
-    pass
+    return transaction_amount/USER_POINT_DIVIDER
 
-def set_user_tier(points:int):
+def set_user_tier(points:float):
     """
     Fungsi ini bertujuan untuk setting tier user, dan selalu dipanggil ketika user melakukan transaksi meskipun tiernya tidak naik level (setiap user melakukan transaksi, tier user selalu dicek)
     """
@@ -39,6 +40,16 @@ def set_user_tier(points:int):
         return tier.TIER_PLATINUM.value
     else:
         return tier.TIER_DIAMOND.value
+
+def check_eligible_redemption_amount(transaction_amount:float, points:float):
+    """
+    Fungsi ini bertujuan untuk mengecek apakah pembeli dapat redeem pointnya berdasarkan amount (total harga buku yang dibelinya) dan total point yang dimiliki oleh pembeli, return jumlah point yang bisa dipakai. Jika point pembeli tidak mencukupi, maka pembeli harus membayar sisanya.
+    """
+
+def get_book_point_amount(book_price:float):
+    """
+    Fungsi ini bertujuan untuk mendapatkan harga poin buku, maksudnya adalah harga buku dikonversi menjadi poin
+    """
 
 
 
