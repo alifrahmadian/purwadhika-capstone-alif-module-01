@@ -78,7 +78,7 @@ def add_book_stock(connection):
 
         connection.commit()
 
-        print(f"Stok buku {book_name} berhasil ditambahkan sebanyak {book_stocks} buah")
+        print(f"Stok buku {book_name.title()} berhasil ditambahkan sebanyak {book_stocks} buah")
     except mysql.connector.Error as e:
         connection.rollback()
 
