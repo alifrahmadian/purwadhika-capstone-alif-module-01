@@ -4,7 +4,7 @@ from db.queries import books as b
 
 def show_book_data(connection):
     try:
-        df = pd.read_sql(b.get_books(), connection)
+        df = pd.read_sql(b.get_books(), connection, index_col='id')
 
         print("\n=== DATA BUKU ===")
 
@@ -21,8 +21,7 @@ def show_book_data(connection):
                 'reserved_stock': 'Reserved Stock'
                 })
 
-            with pd.option_context('display.max_columns', None):
-                print(renamed)
+            print(renamed)
 
         return renamed
     except Exception as e:
