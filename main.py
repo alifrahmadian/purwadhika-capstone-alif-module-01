@@ -5,7 +5,7 @@ import mysql.connector
 
 from db.connection import create_connection
 from features.show_data.menu import menu as show_data_menu
-from features.data_management.menus import menu as add_data_menu
+from features.data_management.menus import menu as data_management_menu
 
 def show_mean_menu():
     print("Tampilkan rata-rata")
@@ -30,7 +30,7 @@ def main():
         if choice == 1:
             show_data_menu(connection)
         elif choice == 2:
-            add_data_menu(connection)
+            data_management_menu(connection)
         elif choice == 3:
             show_mean_menu()
         elif choice == 4:
@@ -52,9 +52,9 @@ Fitur-fitur yang bisa diconsider (jika waktu pengerjaan sempat):
     - Jika point expired, point user di tabel user akan berkurang dan berpotensi turun level tiernya
 
 2. Fitur redeem point -> bayar menggunakan point
-    - Apakah dimasukkan ke dalam tabel book_sales (amountnya) -> Atau karena redeem menggunakan point, amount transactionnya jadi 0?
+    - Apakah dimasukkan ke dalam tabel book_sales (amountnya) -> Atau karena redeem menggunakan point, amount transactionnya jadi 0? -> ini masih lebih sempat
 
-3. Fitur di mana user dapat melakukan lebih dari satu transaksi di waktu yang sama (multiple books) 
+3. Fitur di mana user dapat melakukan lebih dari satu transaksi di waktu yang sama (multiple books) -> mungkin ini yang paling sempat
 
 Improvement (kalo sempat):
 1. Tabel cities

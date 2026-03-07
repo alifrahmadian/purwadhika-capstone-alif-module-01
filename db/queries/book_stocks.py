@@ -26,6 +26,22 @@ def get_book_stock_by_name_and_branch(cursor, book_name:str, branch_id:int):
     cursor.execute(query, (book_name, branch_id))
     return cursor.fetchone()
 
+def get_book_stock_by_branch_id(cursor, id:int):
+    query = """
+    SELECT 
+        bs.id, b.name as book_name, b.price, b.author,
+        br.name as branch, bs.stock 
+    FROM book_stocks bs
+    JOIN books b
+        ON bs.book_id = b.id
+    JOIN branches br
+        ON bs.branch_id = br.id
+    WHERE bs.branch_id = %s;
+"""
+
+    cursor.execute(query, (id, ))
+    return cursor.fetchall(), cursor.description
+
 def add_book_stock(cursor, book_id:int, branch_id:int, stock: int):
     query = """
         INSERT INTO book_stocks (book_id, branch_id, stock)
@@ -35,5 +51,12 @@ def add_book_stock(cursor, book_id:int, branch_id:int, stock: int):
     values = (book_id, branch_id, stock)
     cursor.execute(query, values)
 
-def update_book_stock_by_book_and_branch(book_id:int, branch_id:int):
-    pass
+def update_book_stock_by_book_and_branch(cursor, book_id:int, branch_id:int, stock:int):
+    query = """
+        UPDATE book_stocks
+        SET stock = %s
+        WHERE book_id = %s AND branch_id = %s;
+"""
+
+    values = (stock, book_id, branch_id)
+    cursor.execute(query, values)

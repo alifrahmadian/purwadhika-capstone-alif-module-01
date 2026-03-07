@@ -1,10 +1,13 @@
 from .genres import add_genre
 from .books import add_book
 from .branches import add_branch
-from .book_stocks import add_book_stock, update_book_stock_by_branch
+from .book_stocks import (
+    add_book_stock, 
+    add_book_stock_amount_by_branch,
+    )
 
 """
-Menu ini sebelumnya adalah add_data, tetapi diubah menjadi data_management karena operasi pada menu ini tidak hanya add data, tetapi juga akan ada update data
+Menu ini merupakan menu manajemen data, di mana operator toko dapat melakukan berbagai manajemen data seperti menambahkan dan meng-update data yang tersedia.
 """
 
 def menu(connection):
@@ -56,13 +59,28 @@ def book_menu(connection):
     while True:
         print("\n=== DATA BUKU ===")
         print("1. Tambah buku")
-        print("2. Kembali ke menu sebelumnya")
+        print("2. Update harga buku")
+        print("3. Tambah stok buku yang bisa disebarkan ke cabang (reserved)")
+        print("4. Ubah nama buku")
+        print("5. Ubah nama penulis buku")
+        print("6. Ubah genre buku")
+        print("7. Kembali ke menu sebelumnya")
 
-        choice = int(input("Masukkan pilihan anda (1-2): "))
+        choice = int(input("Masukkan pilihan anda (1-7): "))
 
         if choice == 1:
             add_book(connection)
         elif choice == 2:
+            pass
+        elif choice == 3:
+            pass
+        elif choice == 4:
+            pass
+        elif choice == 5:
+            pass
+        elif choice == 6:
+            pass
+        elif choice == 7:
             break
         else:
             print("Pilihan tidak valid")
@@ -87,8 +105,8 @@ def branch_menu(connection):
 def book_stock_menu(connection):
      while True:
         print("\n=== DATA STOK BUKU ===")
-        print("1. Tambah stok buku per cabang")
-        print("2. Perbarui stok buku per cabang")
+        print("1. Daftar stok buku per cabang")
+        print("2. Tambah jumlah stok buku per cabang")
         print("3. Kembali ke menu sebelumnya")
 
         choice = int(input("Masukkan pilihan anda (1-3): "))
@@ -96,7 +114,7 @@ def book_stock_menu(connection):
         if choice == 1:
             add_book_stock(connection)
         elif choice == 2:
-            update_book_stock_by_branch(connection)
+            add_book_stock_amount_by_branch(connection)
         elif choice == 3:
             break
         else:
