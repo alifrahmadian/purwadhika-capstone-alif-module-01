@@ -1,5 +1,33 @@
 def get_users():
     return "SELECT * from USERS"
 
-def get_user_by_id(id:int):
+def get_user_by_id(cursor, id:int):
     pass
+
+def get_user_by_email(cursor, email:str):
+    query = """
+        SELECT * FROM users
+        WHERE email = %s;
+"""
+
+    cursor.execute(query, (email, ))
+    return cursor.fetchone()
+
+
+def get_user_by_phone_number(cursor, phone_number:str):
+    query = """
+        SELECT * FROM users
+        WHERE phone_number = %s;
+"""
+
+    cursor.execute(query, (phone_number, ))
+    return cursor.fetchone()
+
+def add_user(cursor, name:str, email:str, phone_number:str):
+    query = """
+        INSERT INTO users (name, email, phone_number)
+        VALUES(%s, %s, %s);
+"""
+
+    values = (name.title(), email, phone_number)
+    cursor.execute(query, values)

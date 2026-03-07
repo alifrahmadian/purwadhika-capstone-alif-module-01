@@ -3,7 +3,7 @@ from .menus.books import menu as book_menu
 from .menus.branches import menu as branch_menu
 from .menus.book_stocks import menu as book_stock_menu
 from .menus.users import menu as user_menu
-from .menus.book_sales import menu as book_sales_menu
+from .menus.transactions import menu as book_sales_menu
 
 """
 Menu ini merupakan menu manajemen data, di mana operator toko dapat melakukan berbagai manajemen data seperti menambahkan dan meng-update data yang tersedia.
