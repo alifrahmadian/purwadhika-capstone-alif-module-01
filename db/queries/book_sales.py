@@ -8,3 +8,6 @@ def get_book_sales():
     JOIN branches br
         ON bs.branch_id = br.id;
 """
+
+def add_book_sales(cursor):
+    pass

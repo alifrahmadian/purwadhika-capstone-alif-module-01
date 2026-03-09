@@ -15,6 +15,16 @@ def get_book_by_name(cursor, name:str):
     cursor.execute(query, (name, ))
     return cursor.fetchone()
 
+def get_book_by_id(cursor, id:int):
+    query = """
+    SELECT * from books
+    WHERE id = %s
+    LIMIT 1;
+"""
+
+    cursor.execute(query, (id, ))
+    return cursor.fetchone()
+
 def add_book(cursor, name: str, price: float, author: str, reserved_stock: int, genre_id: int):
     query = """
         INSERT INTO books (name, price, author, reserved_stock, genre_id)

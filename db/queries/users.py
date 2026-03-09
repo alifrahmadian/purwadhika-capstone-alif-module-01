@@ -2,7 +2,13 @@ def get_users():
     return "SELECT * from USERS"
 
 def get_user_by_id(cursor, id:int):
-    pass
+    query = """
+        SELECT * FROM users
+        WHERE id = %s
+"""
+
+    cursor.execute(query, (id, ))
+    return cursor.fetchone()
 
 def get_user_by_email(cursor, email:str):
     query = """

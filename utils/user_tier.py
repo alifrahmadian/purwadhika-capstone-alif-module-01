@@ -19,9 +19,9 @@ Untuk saat ini, tidak ada fitur point expiry, sehingga jumlah poin yang didapat 
 Fitur optional (tukar dengan point pada saat melakukan transaksi)
 """
 
-def set_user_point(transaction_amount:float):
+def convert_price_to_points(transaction_amount:float):
     """
-    Fungsi ini bertujuan untuk menentukan poin berdasarkan jumlah transaksi user tersebut
+    Fungsi ini mengkonversi harga/total menjadi point
     """
     return transaction_amount/USER_POINT_DIVIDER
 

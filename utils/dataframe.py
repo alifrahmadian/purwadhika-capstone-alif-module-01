@@ -3,3 +3,6 @@ import pandas as pd
 def convert_to_dataframe(rows, description):
     columns = [col[0] for col in description]
     return pd.DataFrame(rows, columns=columns)
+
+def convert_list_to_dataframe(list, columns:list):
+    return pd.DataFrame(list, columns=columns)
