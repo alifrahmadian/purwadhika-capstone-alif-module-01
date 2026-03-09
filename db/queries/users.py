@@ -37,3 +37,13 @@ def add_user(cursor, name:str, email:str, phone_number:str):
 
     values = (name.title(), email, phone_number)
     cursor.execute(query, values)
+
+def update_user_points(cursor, user_id:int, points:int):
+    query = """
+        UPDATE users
+        SET points = %s
+        WHERE id = %s;
+"""
+
+    values = (points, user_id)
+    cursor.execute(query, values)

@@ -1,4 +1,5 @@
 import mysql.connector
+from datetime import date
 
 from utils import user_input_validation as userval
 from utils import dataframe as dfutil
@@ -11,9 +12,12 @@ from db.queries import users as uq
 from db.queries import branches as brq
 from db.queries import books as bq
 from db.queries import book_stocks as bsq
+from db.queries import book_sales as sq
+
+from constants.payment_methods import PaymentMethods as pm
 
 def create_transaction(connection):
-    shopping_lists = [] # book id, book name, quantity, price -> untuk menampilkan list belanjaan
+    shopping_lists = [] # book id, book name, quantity, price, point_per_item -> untuk menampilkan list belanjaan
 
     transactions = [] # di list inilah yang akan ditambahkan ke tabel book_stocks
 
@@ -24,9 +28,16 @@ def create_transaction(connection):
     input_email_run = True
     input_user_id_run = True
 
+    input_payment_method_run = True
+
     grand_total = 0
+    payment_amount = 0
+    change_money = 0
 
     user = None
+    payment_method = None
+
+    transaction_date = date.today()
 
     cursor = connection.cursor()
 
@@ -124,8 +135,8 @@ def create_transaction(connection):
             input_qty_run = True
 
             while input_book_run:
-                book_data = show_book_data(connection)
-                print(book_data)
+                book_df = show_book_data(connection)
+                print(book_df)
 
                 book_id = int(input("Masukkan ID buku: "))
                 book = bq.get_book_by_id(cursor, book_id)
@@ -136,8 +147,6 @@ def create_transaction(connection):
                 if book_stock is None:
                     print(f"\nBuku yang anda pilih tidak tersedia di cabang ini")
                 
-               
-
                 if book is not None and book_stock is not None:
                     book_name = book[2]
                     book_price = book[3]
@@ -153,12 +162,13 @@ def create_transaction(connection):
                     input_qty_run = False
             
             total_item_price = qty * book_price
-            shopping_list = (book_id, book_name, qty, book_price, total_item_price)
+            point_per_item = tierutil.convert_price_to_points(float(total_item_price))
+            shopping_list = (book_id, book_name, qty, book_price, point_per_item, total_item_price)
 
             shopping_lists.append(shopping_list)
 
         
-        shopping_lists_df = dfutil.convert_list_to_dataframe(shopping_lists, ['book_id', 'book_name', 'quantity', 'book_price', 'total_price'])
+        shopping_lists_df = dfutil.convert_list_to_dataframe(shopping_lists, ['book_id', 'book_name', 'quantity', 'book_price','point_per_item', 'total_price'])
 
         grand_total = float(shopping_lists_df['total_price'].sum())
         grand_total_point = tierutil.convert_price_to_points(grand_total)
@@ -167,6 +177,84 @@ def create_transaction(connection):
 
         print(f"\nTotal harga: Rp{grand_total:.0f}")
         print(f"Jumlah point yang bisa di-redeem: {grand_total_point}")
+
+        if user is not None:
+            print(f"Jumlah point yang dimiliki oleh pelanggan ini adalah {points}")
+        
+        while input_payment_method_run:
+            payment_method  = choose_payment_method()
+
+            if payment_method is None:
+                print("\nPilihan metode pembayaran tidak valid")
+            
+            """
+            Validasi untuk metode pembayaran point redemption
+            """
+            if payment_method == pm.PAYMENT_METHOD_POINT_REDEMPTION and user is None:
+                print("\nPelanggan ini tidak memiliki member, sehingga tidak bisa menggunakan metode pembayaran point redemption")
+            elif payment_method == pm.PAYMENT_METHOD_POINT_REDEMPTION and points < grand_total_point:
+                print("\nJumlah point pelanggan tidak mencukupi untuk melakukan pembayaran menggunakan metode point redemption")
+            else:                
+                input_payment_method_run = False
+
+            if payment_method == pm.PAYMENT_METHOD_CASH:
+                while True:
+                    payment_amount = float(input("Masukkan jumlah uang yang dibayarkan oleh pelanggan: "))
+                    if payment_amount < grand_total:
+                        print("\nJumlah uang yang dibayarkan tidak mencukupi untuk membayar total harga belanjaan")
+                    else:
+                        change_money = payment_amount - grand_total
+                        break
+
+            if payment_method in [pm.PAYMENT_METHOD_DEBIT_CARD, pm.PAYMENT_METHOD_CREDIT_CARD, pm.PAYMENT_METHOD_EWALLET, pm.PAYMENT_METHOD_QRIS]:
+                payment_amount = float(input("Masukkan jumlah uang yang dibayarkan oleh pelanggan: ")
+                )
+                if payment_amount > grand_total:
+                    print(f"\nUang yang dibayarkan melebihi total harga belanjaan")
+                elif payment_amount < grand_total:
+                    print(f"\nUang yang dibayarkan tidak mencukupi untuk membayar total harga belanjaan")
+                else:  
+                    input_payment_method_run = False
+    
+        transactions = [
+            (
+                user_id if user is not None else None,
+                book_id,
+                branch_id,
+                transaction_date,
+                qty,
+                total_item_price if payment_method != pm.PAYMENT_METHOD_POINT_REDEMPTION else 0,
+                point_per_item if payment_method == pm.PAYMENT_METHOD_POINT_REDEMPTION else 0,
+                payment_method.value
+            )
+            for book_id, book_name, qty, total_item_price, point_per_item, grand_total in shopping_lists
+        ]
+
+        sq.add_book_sales(cursor, transactions)
+
+        for book_id, book_name, qty, total_item_price, point_per_item, grand_total in shopping_lists:
+            updated_stock = available_stock - qty
+
+            bsq.update_book_stock_by_book_and_branch(cursor, book_id, branch_id, updated_stock)
+        
+        if user is not None:
+            if payment_method == pm.PAYMENT_METHOD_POINT_REDEMPTION:
+                updated_points = points - grand_total_point
+                uq.update_user_points(cursor, user_id, updated_points) 
+            else:
+                updated_points = points + grand_total_point
+                uq.update_user_points(cursor, user_id, updated_points)
+        
+        connection.commit()
+        print("\nTransaksi berhasil!")
+
+        if payment_method == pm.PAYMENT_METHOD_CASH:
+            print(f"Uang yang dibayarkan: Rp{payment_amount:.0f}")
+            print(f"Kembalian: Rp{change_money:.0f}")
+        
+        if payment_method == pm.PAYMENT_METHOD_POINT_REDEMPTION:
+            print(f"Point yang diredeem: {grand_total_point:.0f}")
+            print(f"Point yang dimiliki setelah transaksi: {updated_points:.0f}")
     except mysql.connector.Error as e:
         connection.rollback()
 
@@ -188,3 +276,24 @@ def member_input_choice():
             print("Pilihan tidak sesuai")
         else:
             return choice
+
+def choose_payment_method():
+    print("Pilih metode pembayaran: ")
+    print("1. Cash")
+    print("2. Kartu Debit")
+    print("3. Kartu Kredit")
+    print("4. E-wallet")
+    print("5. QRIS")
+    print("6. Point Redemption")
+
+    choice = input("Masukkan pilihan anda (1-6): ")
+    mapping = {
+        "1": pm.PAYMENT_METHOD_CASH,
+        "2": pm.PAYMENT_METHOD_DEBIT_CARD,
+        "3": pm.PAYMENT_METHOD_CREDIT_CARD,
+        "4": pm.PAYMENT_METHOD_EWALLET,
+        "5": pm.PAYMENT_METHOD_QRIS,
+        "6": pm.PAYMENT_METHOD_POINT_REDEMPTION
+    }
+
+    return mapping.get(choice)
