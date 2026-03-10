@@ -1,23 +1,14 @@
-import pandas as pd
-import seaborn as sns
-import matplotlib.pyplot as plt
-import mysql.connector
-
 from db.connection import create_connection
+
 from features.show_data.menu import menu as show_data_menu
 from features.data_management.main_menu import menu as data_management_menu
-
-def show_mean_menu():
-    print("Tampilkan rata-rata")
-
-def visualize_data_menu():
-    print("Tampilkan visualisasi data")
+from features.data_visualization.main_menu import menu as visualize_data_menu
 
 def main():
     connection = create_connection()
 
     while True:
-        print("=== MENU UTAMA ===")
+        print("\n=== MENU UTAMA ===\n")
         print("\nSelamat Datang di Maxi Bookstore\n")
         print("1. Tampilkan data")
         print("2. Manajemen data")
@@ -32,9 +23,10 @@ def main():
         elif choice == 2:
             data_management_menu(connection)
         elif choice == 3:
-            show_mean_menu()
+            pass
+            # show_mean_menu()
         elif choice == 4:
-            visualize_data_menu()
+            visualize_data_menu(connection)
         elif choice == 5:
             print("Keluar dari program")
             break
@@ -44,20 +36,3 @@ def main():
 
 if __name__ == '__main__':
     main()
-
-"""
-Fitur-fitur yang bisa diconsider (jika waktu pengerjaan sempat):
-
-1. Menambah tabel member_point_transaction (id, user_id, book_sales_id, earned_points, point_expiry_date -> satu tahun setelah transaksi) -> tabel ini bertujuan untuk tracking riwayat point user setiap melakukan transaksi
-    - Jika point expired, point user di tabel user akan berkurang dan berpotensi turun level tiernya
-
-2. Fitur redeem point -> bayar menggunakan point
-    - Apakah dimasukkan ke dalam tabel book_sales (amountnya) -> Atau karena redeem menggunakan point, amount transactionnya jadi 0? -> ini masih lebih sempat
-
-3. Fitur di mana user dapat melakukan lebih dari satu transaksi di waktu yang sama (multiple books) -> mungkin ini yang paling sempat
-
-Improvement (kalo sempat):
-1. Tabel cities
-2. Tabel provinces
-3. Tabel tier, nanti di tabel user, instead of pake "tier", pake "tier_id"
-"""

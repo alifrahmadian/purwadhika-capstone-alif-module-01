@@ -11,7 +11,7 @@ def show_sales_data(connection):
         if len(df) == 0:
             print("Tidak ada data yang tersedia")
         else:
-            print(df)
+            print(df.to_string(index=False))
         
         return df
     except Exception as e:
