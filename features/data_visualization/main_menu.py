@@ -1,4 +1,5 @@
 from .menus.books import menu as book_menu
+from .menus.book_stocks import menu as book_stock_menu
 
 def menu(connection):
     while True:
@@ -14,7 +15,7 @@ def menu(connection):
         if choice == 1:
             book_menu(connection)
         elif choice == 2:
-            pass
+            book_stock_menu(connection)
         elif choice == 3:
             pass
         elif choice == 4:
