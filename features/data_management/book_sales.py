@@ -70,6 +70,7 @@ def create_transaction(connection):
                         is_valid_phone_number = userval.is_valid_phone_number(phone_number)
                         if not is_valid_phone_number:
                             print("\nFormat nomor telepon tidak sesuai")
+                            continue
                         
                         user = uq.get_user_by_phone_number(cursor, phone_number)
                         if user is None:
@@ -86,6 +87,7 @@ def create_transaction(connection):
                         is_valid_email = userval.is_valid_email(email)
                         if not is_valid_email:
                             print("\nFormat email tidak sesuai")
+                            continue
                         
                         user = uq.get_user_by_email(cursor, email)
                         if user is None:
