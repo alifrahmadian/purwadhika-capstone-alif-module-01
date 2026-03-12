@@ -75,7 +75,7 @@ def create_transaction(connection):
                         user = uq.get_user_by_phone_number(cursor, phone_number)
                         if user is None:
                             print("\nMember belum terdaftar")
-                            input_phone_number_run = False
+                            continue
                         else:
                             input_phone_number_run = False
                             input_member_run = False
@@ -92,7 +92,7 @@ def create_transaction(connection):
                         user = uq.get_user_by_email(cursor, email)
                         if user is None:
                             print("\nMember belum terdaftar")
-                            input_email_run = False
+                            continue
                         else:
                             input_email_run = False
                             input_member_run = False
@@ -103,7 +103,7 @@ def create_transaction(connection):
                         user = uq.get_user_by_id(cursor, user_id)
                         if user is None:
                             print("\nMember belum terdaftar")
-                            input_user_id_run = False
+                            continue
                         else:
                             input_user_id_run = False
                             input_member_run = False
