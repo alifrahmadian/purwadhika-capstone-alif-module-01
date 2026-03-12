@@ -1,6 +1,6 @@
 def get_book_sales():
     return """
-    SELECT bs.transaction_date, quantity, sales, redeemed_points, u.name as user_name, u.phone_number, b.genre_id, b.name as book_name, b.price, b.author, br.name as branch FROM book_sales bs
+    SELECT bs.transaction_date, quantity, sales, redeemed_points, payment_method, u.name as user_name, u.phone_number, b.genre_id, b.name as book_name, b.price, b.author, br.name as branch FROM book_sales bs
     LEFT JOIN users u
         ON bs.user_id = u.id
     JOIN books b
