@@ -188,14 +188,17 @@ def create_transaction(connection):
 
             if payment_method is None:
                 print("\nPilihan metode pembayaran tidak valid")
+                continue
             
             """
             Validasi untuk metode pembayaran point redemption
             """
             if payment_method == pm.PAYMENT_METHOD_POINT_REDEMPTION and user is None:
                 print("\nPelanggan ini tidak memiliki member, sehingga tidak bisa menggunakan metode pembayaran point redemption")
+                continue
             elif payment_method == pm.PAYMENT_METHOD_POINT_REDEMPTION and points < grand_total_point:
                 print("\nJumlah point pelanggan tidak mencukupi untuk melakukan pembayaran menggunakan metode point redemption")
+                continue
             else:                
                 input_payment_method_run = False
 
@@ -204,19 +207,24 @@ def create_transaction(connection):
                     payment_amount = float(input("Masukkan jumlah uang yang dibayarkan oleh pelanggan: "))
                     if payment_amount < grand_total:
                         print("\nJumlah uang yang dibayarkan tidak mencukupi untuk membayar total harga belanjaan")
+                        continue
                     else:
                         change_money = payment_amount - grand_total
                         break
 
             if payment_method in [pm.PAYMENT_METHOD_DEBIT_CARD, pm.PAYMENT_METHOD_CREDIT_CARD, pm.PAYMENT_METHOD_EWALLET, pm.PAYMENT_METHOD_QRIS]:
-                payment_amount = float(input("Masukkan jumlah uang yang dibayarkan oleh pelanggan: ")
-                )
-                if payment_amount > grand_total:
-                    print(f"\nUang yang dibayarkan melebihi total harga belanjaan")
-                elif payment_amount < grand_total:
-                    print(f"\nUang yang dibayarkan tidak mencukupi untuk membayar total harga belanjaan")
-                else:  
-                    input_payment_method_run = False
+                while True:
+                    payment_amount = float(input("Masukkan jumlah uang yang dibayarkan oleh pelanggan: ")
+                    )
+                    if payment_amount > grand_total:
+                        print(f"\nUang yang dibayarkan melebihi total harga belanjaan")
+                        continue
+                    elif payment_amount < grand_total:
+                        print(f"\nUang yang dibayarkan tidak mencukupi untuk membayar total harga belanjaan")
+                        continue
+                    else:  
+                        input_payment_method_run = False
+                        break
     
         transactions = [
             (
