@@ -199,3 +199,21 @@ def visualize_book_stock_heatmap(connection):
     except Exception as e:
         print(f"Terjadi kesalahan saat memvisualisasikan heatmap stok buku: {e}")
         return
+
+def visualize_book_distribution(connection):
+    try:
+        df = show_book_stock_data(connection)
+
+        plt.figure(figsize=(20,10))
+        sns.histplot(df['book_name'], bins=20, kde=True, color='skyblue')
+
+        plt.title('Distribusi Buku Yang Tersedia')
+        plt.xlabel('Buku')
+        plt.ylabel('Frekuensi')
+        plt.grid(axis='y', linestyle='--', alpha=0.7)
+        plt.xticks(rotation=45)
+        plt.tight_layout()
+        plt.show()
+    except Exception as e:
+        print(f"Terjadi kesalahan saat memvisualisasikan distribusi buku: {e}")
+        return
